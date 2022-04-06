@@ -2,17 +2,19 @@ class GameInstance (val threshold: Int, val ruleset: GameRuleset) {
     private var rounds: Int = 0
     private var account: Int = 0
     private var cash: Int = 0
+    private val debug = false
 
     fun gameTurn(): Int {
         val diceValue = rollTheDice()
-        println("R("+rounds+")A("+account+")C("+cash+") D:"+diceValue)
+        if(debug) println("R("+rounds+")A("+account+")C("+cash+") D:"+diceValue)
         if (diceValue == ruleset.highestDiceValue) {
-            println("lose progress")
             loseProgress()
             endRound()
         } else {
             cash += diceValue
             if ((account+cash) >= ruleset.goal) {
+                saveProgress()
+                if(debug) println("#### threshold: "+threshold+" rounds:"+rounds+" ####")
                 return rounds
             }
             if (cash >= threshold) {
