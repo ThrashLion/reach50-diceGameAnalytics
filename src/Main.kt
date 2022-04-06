@@ -1,13 +1,22 @@
 import contantThreshold.EmpiricalAnalysis as ConstThresholdAnalysis
-import contantThreshold.GameInstance as ConstThresholdGame
+import adaptingThreshold.EmpiricalAnalysis as AdaptThresholdAnalysis
 
 fun main() {
     val vanilla = GameRuleset(1, 6, 50)
-    val sampleSize = 100000
+    val sampleSize = 1000000
 
-
-    var constThresholdAnalysis = ConstThresholdAnalysis(vanilla, sampleSize)
-    constThresholdAnalysis.runFullAnalysis()
+    val constThresholdActive: Boolean = false
+    val adaptThresholdActive: Boolean = true
 
     vanilla.dice.checkDice(sampleSize)
+
+    if (constThresholdActive) {
+        var constThresholdAnalysis = ConstThresholdAnalysis(vanilla, sampleSize)
+        constThresholdAnalysis.runFullAnalysis()
+    }
+    if (adaptThresholdActive) {
+        var adaptThresholdAnalysis = AdaptThresholdAnalysis(vanilla, sampleSize)
+        adaptThresholdAnalysis.runFullAnalysis()
+    }
+
 }
