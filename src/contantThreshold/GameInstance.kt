@@ -1,3 +1,7 @@
+package contantThreshold
+
+import GameRuleset
+
 class GameInstance (val threshold: Int, val ruleset: GameRuleset) {
     private var rounds: Int = 0
     private var account: Int = 0
