@@ -1,6 +1,8 @@
 package adaptingThreshold
 
 import GameRuleset
+import ValueSigma
+import service.CalculatorService
 
 class EmpiricalAnalysis (private val ruleset: GameRuleset, var sampleSize: Int) {
     var accountThresholdMap = HashMap<Int,Int>()
@@ -23,8 +25,8 @@ class EmpiricalAnalysis (private val ruleset: GameRuleset, var sampleSize: Int) 
             println("$account ${minimum.key}")
         }
         val game = GameInstance(ruleset.goal, accountThresholdMap[0]!!, accountThresholdMap, ruleset)
-        val averageRounds: Double = runForThreshold(0,accountThresholdMap[0]!!)
-        println("average rounds needed: $averageRounds")
+        val resultSigma = runAdaptingThreshold()
+        println("Adapting threshold average rounds: $resultSigma")
     }
 
     fun runForThreshold(account: Int, threshold: Int): Double {
@@ -34,5 +36,19 @@ class EmpiricalAnalysis (private val ruleset: GameRuleset, var sampleSize: Int) 
             sumOfAllRounds += game.gameTurn()
         }
         return sumOfAllRounds.toDouble() / sampleSize.toDouble()
+    }
+
+    fun runAdaptingThreshold(): ValueSigma {
+        var resultList: MutableList<Int> = mutableListOf<Int>()
+        var sumOfAllRounds = 0
+        for (i in 1..sampleSize) {
+            val game = GameInstance(0, accountThresholdMap[0]!!, accountThresholdMap, ruleset)
+            val rounds = game.gameTurn()
+            resultList.add(rounds)
+            sumOfAllRounds += rounds
+        }
+        val average = sumOfAllRounds.toDouble() / sampleSize.toDouble()
+        val sigma = CalculatorService.calculateSigma(resultList,average,sampleSize)
+        return ValueSigma(average,sigma)
     }
 }

@@ -1,7 +1,7 @@
 package contantThreshold
 
 import GameRuleset
-import Service.CalculatorService
+import service.CalculatorService
 import ValueSigma
 
 class EmpiricalAnalysis (val ruleset: GameRuleset, var sampleSize: Int) {
