@@ -5,8 +5,8 @@ fun main() {
     val vanilla = GameRuleset(1, 6, 50)
     val sampleSize = 1000000
 
-    val constThresholdActive: Boolean = true
-    val adaptThresholdActive: Boolean = false
+    val constThresholdActive: Boolean = false
+    val adaptThresholdActive: Boolean = true
 
     vanilla.dice.checkDice(sampleSize)
 

@@ -26,9 +26,6 @@ class GameInstance (val threshold: Int, val ruleset: GameRuleset) {
                 endRound()
             }
         }
-        if(worstCase()) {
-            return rounds
-        }
         return gameTurn()
     }
 
@@ -47,10 +44,6 @@ class GameInstance (val threshold: Int, val ruleset: GameRuleset) {
 
     fun rollTheDice(): Int {
         return ruleset.dice.roll()
-    }
-
-    private fun worstCase(): Boolean {
-        return (rounds >= ruleset.goal)
     }
 
 }

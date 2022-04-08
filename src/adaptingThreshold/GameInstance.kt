@@ -26,9 +26,6 @@ class GameInstance (private var account: Int, var threshold: Int, private val ac
                 endRound()
             }
         }
-        if(worstCase()) {
-            return rounds
-        }
         return gameTurn()
     }
 
@@ -51,10 +48,6 @@ class GameInstance (private var account: Int, var threshold: Int, private val ac
 
     fun rollTheDice(): Int {
         return ruleset.dice.roll()
-    }
-
-    private fun worstCase(): Boolean {
-        return (rounds >= ruleset.goal)
     }
 
 }
