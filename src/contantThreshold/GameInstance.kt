@@ -46,7 +46,7 @@ class GameInstance (val threshold: Int, val ruleset: GameRuleset) {
     }
 
     fun rollTheDice(): Int {
-        return (ruleset.lowestDiceValue until (ruleset.highestDiceValue+1)).random()
+        return ruleset.dice.roll()
     }
 
     private fun worstCase(): Boolean {
