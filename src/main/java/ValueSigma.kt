@@ -9,6 +9,14 @@ class ValueSigma (val value: Double, val sigma: Double) {
         return "("+ roundValue(value) +" +- "+ roundSigma(sigma) +")"
     }
 
+    fun valueAsString(): String {
+        return roundValue(value).toString()
+    }
+
+    fun sigmaAsString(): String {
+        return roundSigma(sigma).toString()
+    }
+
     private fun roundValue(value: Double): String {
         decimalFormat.roundingMode = RoundingMode.HALF_UP
         return decimalFormat.format(value)

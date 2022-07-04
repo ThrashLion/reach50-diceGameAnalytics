@@ -3,18 +3,22 @@ package contantThreshold
 import GameRuleset
 import service.CalculatorService
 import ValueSigma
+import service.OutputService
 
 class EmpiricalAnalysis (val ruleset: GameRuleset, var sampleSize: Int) {
 
     fun runFullAnalysis() {
         println("## empirical analysis for constant threshold ##")
         println("threshold | averageRounds")
+        val data = mutableListOf(listOf("threshold", "average rounds", "sigma"))
         for (threshold in 0..(ruleset.goal) ) {
-            runForThreshold(threshold)
+            val result = runForThreshold(threshold)
+            data.add(listOf(threshold.toString(), result.valueAsString(), result.sigmaAsString()))
         }
+        OutputService.exportCSV(data)
     }
 
-    fun runForThreshold(threshold: Int) {
+    fun runForThreshold(threshold: Int): ValueSigma {
         var resultList: MutableList<Int> = mutableListOf<Int>()
         var sumOfAllRounds = 0
         for (i in 1..sampleSize) {
@@ -25,8 +29,7 @@ class EmpiricalAnalysis (val ruleset: GameRuleset, var sampleSize: Int) {
         }
         val average = sumOfAllRounds.toDouble() / sampleSize.toDouble()
         val sigma = CalculatorService.calculateSigma(resultList,average,sampleSize)
-        val resultSigma = ValueSigma(average,sigma)
-        println("$threshold $resultSigma")
+        return ValueSigma(average,sigma)
     }
 
 }
